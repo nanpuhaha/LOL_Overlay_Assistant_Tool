@@ -47,18 +47,16 @@ class SkinSpider:
             item["cn_name"] = hero_info[3].encode().decode("unicode-escape")
 
             # 构造一下将要保存的本地路径
-            path = "./heroImgsCN/" + item["cn_name"]
+            path = "./heroSkin2/"
             if not os.path.exists(path):
                 os.mkdir(path)
-            else:
-                print("Directory {} has existed".format(path))
-            self.requestSkinURl(path, item["key"],item["cn_name"])
+            self.requestSkinURl(path, item["key"], item["en_name"])
 
     def requestSkinURl(self, path, key, cn_name):
 
         num = int(key) * 1000
         oneSkinImgurl = "https://game.gtimg.cn/images/lol/act/img/skin/big{}.jpg"
-        for skinPage in range(0, 30):
+        for skinPage in range(0, 1):
             imgUrl = oneSkinImgurl.format(num + skinPage)
             img_response = self.getResponse(imgUrl)
             if None == img_response:
@@ -68,7 +66,7 @@ class SkinSpider:
     def downloadImg(self, path, bResponse, skinPage, cn_name):
         dir_name = path
         try:
-            path = path + "/" + cn_name + "_{}.jpg".format(skinPage)
+            path = path + "/" + cn_name + ".jpg".format(skinPage)
             if os.path.exists(path):
                 return
             with open(path, "wb") as f:
