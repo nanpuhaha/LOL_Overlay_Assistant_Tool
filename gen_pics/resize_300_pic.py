@@ -19,10 +19,14 @@ def copy300times(dir, imgs):
 
 if __name__ == '__main__':
 
-    root_path = "D:\\LOL_DATA\\avatar_en"
+    root_path = "D:\\Projects\\CSCI_599\\build_dataset\\in_game_profile_dataset\\training"
     for directory in os.listdir(root_path):
         for imgs in os.listdir(root_path + "\\" + directory):
             img = cv2.imread(root_path + "\\" + directory + "\\" + imgs)
-            img_new = cv2.resize(img, (64, 64), interpolation=cv2.INTER_CUBIC)
-            cv2.imwrite(filename=root_path + "\\" + directory + "\\" + imgs,
+            try:
+                img_new = cv2.resize(img, (64, 64), interpolation=cv2.INTER_CUBIC)
+                cv2.imwrite(filename=root_path + "\\" + directory + "\\" + imgs,
                         img=img_new)
+            except:
+                print("wrong ", directory)
+        print("finish dir ", directory)

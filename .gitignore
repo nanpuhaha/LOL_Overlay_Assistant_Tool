@@ -45,3 +45,10 @@
 /build_dataset/wwww.jpg
 /capture_screen
 /assets_spider/assets_spider/spiders/__pycache__
+/build_dataset/ban_face_dataset
+/build_dataset/ban_face_recognition
+/build_dataset/champ_faces
+/build_dataset/checkpoints
+/build_dataset/face_recognition
+/build_dataset/in_game_profile_dataset
+/build_dataset/ss
