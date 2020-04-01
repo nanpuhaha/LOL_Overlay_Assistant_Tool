@@ -52,3 +52,12 @@
 /build_dataset/face_recognition
 /build_dataset/in_game_profile_dataset
 /build_dataset/ss
+/PoroApp/venv
+/PoroApp/.idea
+/PoroApp/build
+/PoroApp/temp
+/PoroApp/test
+/PoroApp/view/__pycache__
+/PoroApp/utils/__pycache__
+/PoroApp/model/__pycache__
+/PoroApp/conf/__pycache__
