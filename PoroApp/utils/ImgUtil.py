@@ -2,9 +2,10 @@ __author__ = 'Aaron Yang'
 __email__ = 'byang971@usc.edu'
 __date__ = '2/1/2020 5:01 PM'
 
+import cv2
 from PIL import ImageGrab, ImageEnhance, ImageOps
 from PyQt5.QtGui import QImage
-
+import numpy as np
 from utils.StringUtil import genRandomStr
 
 
@@ -107,3 +108,40 @@ def cut3X2Boxes(img, interval=5, save_file=False):
             print("saved a png file whose name is: ", imgName)
 
     return six_imgs
+
+
+def find_circles(mini_map_img):
+    r, g, b = cv2.split(np.array(mini_map_img))
+
+    red_channel = cv2.inRange(r, 120, 255)
+    green_channel = cv2.inRange(g, 120, 255)
+    blue_channel = cv2.inRange(b, 120, 255)
+
+    induction = red_channel - green_channel - blue_channel
+
+    circles_info = cv2.HoughCircles(induction, cv2.HOUGH_GRADIENT, dp=1,
+                                    minDist=10, param1=30, param2=15,
+                                    minRadius=5, maxRadius=30)
+
+    positions = list()
+    image_rect = list()
+    if circles_info is not None:
+        for index in range(circles_info.shape[1]):
+            x = int(circles_info[0][index][0])
+            y = int(circles_info[0][index][1])
+            r = int(circles_info[0][index][2])
+            image_rect.append((x - r, y - r, x + r, y + r))
+            positions.append((circles_info[0][index][0], circles_info[0][index][1]))
+    return image_rect, positions
+
+
+def cropImgsByRects(img, positions, save_file=False):
+    image_list = list()
+    for position in positions:
+        cropped = img.crop(position)
+        image_list.append(cropped)
+        if save_file:
+            imgName = genRandomStr() + ".png"
+            cropped.save(imgName)
+            print("saved a png file whose name is: ", imgName)
+    return image_list

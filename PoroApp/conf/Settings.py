@@ -3,11 +3,12 @@ __email__ = 'byang971@usc.edu'
 __date__ = '2/2/2020 8:33 PM'
 
 # Pet's Opacity
-DEFAULT_OPACITY = 90
+DEFAULT_OPACITY = 100
 DEFAULT_DRAGGABLE = True
 ASSETS_DIR = "resources/assets/"
 # the interval(ms) between every frame of pet's emoji
-TIME_INTERVAL = 800
+TIME_INTERVAL = 200
+PET_POSITION = (420, 150)
 
 # LOL client name in Task Manager
 LOL_CLIENT_NAME = 'League of Legends'
@@ -58,6 +59,7 @@ USER_S_GEAR_AREA = (1130, 945, 1273, 1037)
 IN_GAME_PROFILE_RECOGNITION_CHECK_POINT_PATH = "resources/model/in_game_profile_model.h5"
 ITEM_DETECTION_CHECK_POINT_PATH = "resources/model/item_detection_model.h5"
 BANNED_CHAMP_RECOGNITION_CHECK_POINT_PATH = "resources/model/ban_face_recognition_model.h5"
+MINI_MAP_CHAMP_RECOGNITION_CHECK_POINT_PATH = "resources/model/mini_map_face_recognition.h5"
 
 # Champion basic info csv
 CHAMPION_BASIC_CSV_PATH = "resources/data/champ_basic.csv"
@@ -67,3 +69,9 @@ CHAMPION_BIG_PROFILE_PATH = "resources/data/profile_big"
 # Gear basic info csv
 GEAR_BASIC_CSV_PATH = "resources/data/gear_basic.csv"
 GEAR_PROFILE_PATH = "resources/data/gears"
+
+# mini-map
+MINI_MAP_BOX = (1654, 813, 1909, 1068)
+
+# warning threshold
+WARNING_THRESHOLD = 1

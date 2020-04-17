@@ -15,7 +15,7 @@ from utils.PositionUtil import genRelativePos, getChampSearchBoxPoint, getGearSe
 from view.NotificationWindow import NotificationWindow
 from conf.Settings import BAN_AREA_YOU, BAN_AREA_ENEMY, BANNED_CHAMP_SIZE, TAB_PANEL, LOL_CLIENT_NAME, \
     ENEMY_TEAM_AREA, POPUP_THRESHOLD, USER_S_CHAMP_AREA, LOL_IN_GAME_CLIENT_NAME, \
-    CHAMP_SEARCH_BOX_POINT, GEAR_SEARCH_BOX_POINT
+    CHAMP_SEARCH_BOX_POINT, GEAR_SEARCH_BOX_POINT, MINI_MAP_BOX
 from model.ImgProcessor import ImgCatcherThread, ImgCropType
 
 bp_session_thread_pool = []
@@ -123,6 +123,13 @@ def inGameAnalysis(client_info):
         shop_key_catcher.setDaemon(True)
         shop_key_catcher.start()
 
+        mini_map_catcher = ImgCatcherThread("MINI_MAP_CATCHER", client_info,
+                                            ImgCropType.MINI_MAP,
+                                            MINI_MAP_BOX, 1)
+        in_game_thread_pool.append(mini_map_catcher)
+        mini_map_catcher.setDaemon(True)
+        mini_map_catcher.start()
+
     if UserInGameInfo.getInstance().getGearDetectedFlag():
         # show enemy champion info and gears
         NotificationWindow.threat('In Game Detection Session',
@@ -190,6 +197,19 @@ def inGameAnalysis(client_info):
                                   callback=None)
         pop_threshold -= 1
 
+    if pop_threshold < -2:
+        warning_info = UserInGameInfo.getInstance().getWarningInfo()
+        for content in warning_info:
+            NotificationWindow.threat('In Game Warning Session',
+                                      """Poro has recognized there might have some dangerous:<html>
+                                      <head><style>.info{{text-align:left;height:40px}}.info span{{display:inline-block;
+                                      vertical-align:middle;padding:20px 0;}}.info img{{width:32px;
+                                      height:auto;vertical-align:middle}}#class_icon{{width:15px}}#lane_icon{{width:15px;
+                                      margin-left:5px}}</style></head><body>{}</body></html>""".format(
+                                          content),
+                                      callback=None)
+        pop_threshold -= 1
+
 
 def copyAndPasteGearName():
     gear_name = UserInGameInfo.getInstance().getRecommendGearAutoCountList()
@@ -197,12 +217,8 @@ def copyAndPasteGearName():
     game_client = win32gui.FindWindow(None, LOL_IN_GAME_CLIENT_NAME)
     if game_client != 0:
         rect = win32gui.GetWindowRect(game_client)
-        print("1 rect ->", rect)
         relative_point = getGearSearchBoxPoint(rect, GEAR_SEARCH_BOX_POINT, enlargement_factor)
         if gear_name is not None:
-            print("1 GEAR_SEARCH_BOX_POINT ->", GEAR_SEARCH_BOX_POINT)
-            print("1 relative_point ->", relative_point)
-            print("1 gear_names ->", gear_name.replace("_", " "))
             pasteToSearchBox(relative_point, gear_name.replace("_", " "))
         else:
             UserInGameInfo.getInstance().resetGearCounter()
@@ -217,12 +233,8 @@ def copyAndPasteChampName():
     lobby_client = win32gui.FindWindow(None, LOL_CLIENT_NAME)
     if lobby_client != 0:
         rect = win32gui.GetWindowRect(lobby_client)
-        print("2 rect ->", rect)
         relative_point = getChampSearchBoxPoint(rect, CHAMP_SEARCH_BOX_POINT, enlargement_factor)
         if champ_name is not None:
-            print("2 CHAMP_SEARCH_BOX_POINT ->", CHAMP_SEARCH_BOX_POINT)
-            print("2 relative_point ->", relative_point)
-            print("2 gear_names ->", champ_name)
             pasteToSearchBox(relative_point, champ_name)
         else:
             NotificationWindow.warning('BP Champion Session',
