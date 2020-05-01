@@ -3,6 +3,8 @@
 Coursework in University of Southern California. Apply Deep Learning on games.
 My team plan to build a League of Legend Assistant tool.
 
+![func1](https://user-images.githubusercontent.com/24391143/80825500-60e17e00-8b95-11ea-8ae3-32899cc5721b.gif)
+
 |No.| Achievement | Video | Techniques | PPT |
 |---|-------------|--------|-----------|-----|
 |1| Connect LoL Client &&  Monitor which panel the players clicked && Pop up a notification window |[![step1](http://img.youtube.com/vi/TmdfXxvrrv0/0.jpg)](http://www.youtube.com/watch?v=TmdfXxvrrv0 "step1")|`WIN32` `PyQT5` `OCR`|[PPT1](https://github.com/AaronYang2333/CSCI_599/blob/master/ppt/Init.pdf) / [PPT2](https://github.com/AaronYang2333/CSCI_599/blob/master/ppt/Report_1.pdf)|
