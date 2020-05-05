@@ -2,6 +2,7 @@
 
 Using deep learning techniques to help you enjoy game.
 
+### ScreenShots
 There are four main funcs in this tool.
 
 1. The first one is to detect your game client thread and recognize which status you are in.<br>
@@ -16,3 +17,13 @@ There are four main funcs in this tool.
 
 4. The last func will provide you some gear recommendation based on your enemy's item list.<br>
 ![func4](https://user-images.githubusercontent.com/24391143/80831564-ec600c80-8b9f-11ea-97e1-16afa76fe2f8.gif)
+
+
+### Video Link
+
+|     |           Video Link         |
+|-----|------------------------------|
+|Video|[Bilibili](https://www.bilibili.com/video/BV1fK4y1r769) [Youtube](https://www.youtube.com/watch?v=d0Ds144wQmI&t=6s)|
+
+### Techniques
+
