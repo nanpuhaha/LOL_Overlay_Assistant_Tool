@@ -1,5 +1,5 @@
 # League of Legends Overlay Assistant Tool
-## 基于CNN的英雄联盟游戏助手
+## 基于深度学习的英雄联盟游戏助手
 
 Using deep learning techniques to help you to win the game.
 
