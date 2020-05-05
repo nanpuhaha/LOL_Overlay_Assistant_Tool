@@ -61,3 +61,6 @@
 /PoroApp/utils/__pycache__
 /PoroApp/model/__pycache__
 /PoroApp/conf/__pycache__
+/poro_app/.idea
+/poro_app/venv
+/poro_app/test
