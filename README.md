@@ -29,7 +29,7 @@ There are four main funcs in this tool.
 
 |     |           Video Link         | Building Records |
 |-----|------------------------------|------------------|
-|video|[bilibili](https://www.bilibili.com/video/BV1fK4y1r769) [youtube](https://www.youtube.com/watch?v=d0Ds144wQmI&t=6s)| [built in 5 steps](https://github.com/AaronYang2333/LOL_Overlay_Assistant_Tool/wiki)
+|video|[bilibili](https://www.bilibili.com/video/BV1fK4y1r769) [youtube](https://www.youtube.com/watch?v=d0Ds144wQmI&t=6s)| [built in 5 steps](https://github.com/AaronYang2333/LOL_Overlay_Assistant_Tool/wiki/Building-Records)
 
 ### Framework [MVC框架]
 ![mvc](https://user-images.githubusercontent.com/24391143/81099807-54746280-8ec0-11ea-86c9-5d8f2d31bcef.png)
