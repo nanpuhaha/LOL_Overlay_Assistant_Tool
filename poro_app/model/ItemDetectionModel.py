@@ -62,7 +62,7 @@ class ItemModel(object):
 
     def predictSingleImg(self, image):
         # convert PIL image to Tensor
-        result = list()
+        result = []
         imgs = split2NPieces(image, pieces=6, interval=1, horizontal=True)
         for img in imgs:
             img_arr = np.array(img.convert('RGB'))
@@ -75,13 +75,10 @@ class ItemModel(object):
         return result
 
     def predictImgs(self, images):
-        results = []
-        for img in images:
-            results.append(self.predictSingleImg(img))
-        return results
+        return [self.predictSingleImg(img) for img in images]
 
     def predict3X2Img(self, image, interval=5, save_file=False):
-        result = list()
+        result = []
         if image is not None:
             imgs = cut3X2Boxes(image, interval=interval, save_file=save_file)
             for img in imgs:

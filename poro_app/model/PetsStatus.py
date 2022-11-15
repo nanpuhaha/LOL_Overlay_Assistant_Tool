@@ -37,14 +37,14 @@ class PoroAssets():
 
     def __init__(self):
         self.pet_s_name = "Poro"
-        self.dict_data = dict()
+        self.dict_data = {}
 
     def loadData(self, path):
         assert os.path.exists(path), "please specify your pet's imgs dir"
 
         for dir in os.listdir(path):
-            img_path_list = os.listdir(path + "/" + dir)
-            self.dict_data[dir] = [dir + "/" + img_name for img_name in img_path_list]
+            img_path_list = os.listdir(f"{path}/{dir}")
+            self.dict_data[dir] = [f"{dir}/{img_name}" for img_name in img_path_list]
 
     def getRowData(self):
         return self.dict_data

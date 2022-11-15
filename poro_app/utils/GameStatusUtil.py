@@ -29,10 +29,12 @@ def statusChange(client):
     if client.hasAlive():
         if not client.isGameMode():
             # 非游戏和 房间阶段
-            NotificationWindow.info('Info',
-                                    "LOL Client Status: Your are in <u><b>{}</b></u> Panel".format(
-                                        client.getStatus()["name"]),
-                                    callback=None)
+            NotificationWindow.info(
+                'Info',
+                f'LOL Client Status: Your are in <u><b>{client.getStatus()["name"]}</b></u> Panel',
+                callback=None,
+            )
+
 
             # TODO  暂时防误杀
             if client.getStatus()["name"] != "InRoom":
@@ -46,40 +48,38 @@ def statusChange(client):
                 # 重置所有游戏信息
                 ImgCatcherThread.resetLocalList()
                 UserInGameInfo.getInstance().resetAll()
+        elif client.getStatusIndex() == ClientStatus.AssignPosition:
+            if UserInGameInfo.getInstance().hasPositionInfo():
+                NotificationWindow.detect(
+                    'Entering Game Mode...',
+                    f"You are assigned in <u><b>{UserInGameInfo.getInstance().getUserPosition()}</b></u> position.",
+                    callback=None,
+                )
+
+
+        elif client.getStatusIndex() == ClientStatus.ChooseChampion:
+            if random.randint(0, 1) == 1:
+                NotificationWindow.detect('BP Champion Session',
+                                          "You have entered Champion BP Session.",
+                                          callback=None)
+
+            # TODO 都是为了测试， 正式时候可以删除
+            if not UserInGameInfo.getInstance().hasPositionInfo():
+                print("Since we join the custom room, so we assigned a TOP position to you")
+                UserInGameInfo.getInstance().setUserPosition("TOP")
+                NotificationWindow.detect('BP Champion Session',
+                                          "You has been assigned in <u><b>TOP</b></u> position. <br/> Tips: "
+                                          "Since we join the custom room, so we assigned a TOP position to you",
+                                          callback=None)
+            # 这里开启一个线程 去捕捉 图片 预测 不需要跟pyqt挂钩
+            bpSessionAnalysis(client)
+
         else:
-            # 游戏阶段， BP， 选英雄， 游戏内
-            # detect user's position
-            if client.getStatusIndex() == ClientStatus.AssignPosition:
-                if UserInGameInfo.getInstance().hasPositionInfo():
-                    NotificationWindow.detect('Entering Game Mode...',
-                                              "You are assigned in <u><b>{}</b></u> position.".format(
-                                                  UserInGameInfo.getInstance().getUserPosition()),
-                                              callback=None)
-
-            # picking champions
-            elif client.getStatusIndex() == ClientStatus.ChooseChampion:
-                if random.randint(0, 1) == 1:
-                    NotificationWindow.detect('BP Champion Session',
-                                              "You have entered Champion BP Session.",
-                                              callback=None)
-
-                # TODO 都是为了测试， 正式时候可以删除
-                if not UserInGameInfo.getInstance().hasPositionInfo():
-                    print("Since we join the custom room, so we assigned a TOP position to you")
-                    UserInGameInfo.getInstance().setUserPosition("TOP")
-                    NotificationWindow.detect('BP Champion Session',
-                                              "You has been assigned in <u><b>TOP</b></u> position. <br/> Tips: "
-                                              "Since we join the custom room, so we assigned a TOP position to you",
-                                              callback=None)
-                # 这里开启一个线程 去捕捉 图片 预测 不需要跟pyqt挂钩
-                bpSessionAnalysis(client)
-
-            else:
-                if len(bp_session_thread_pool) > 0:
-                    for thread in bp_session_thread_pool:
-                        thread.stop()
-                    bp_session_thread_pool.clear()
-                inGameAnalysis(client)
+            if len(bp_session_thread_pool) > 0:
+                for thread in bp_session_thread_pool:
+                    thread.stop()
+                bp_session_thread_pool.clear()
+            inGameAnalysis(client)
 
 
     else:

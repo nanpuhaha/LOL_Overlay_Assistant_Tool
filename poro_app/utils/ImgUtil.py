@@ -27,7 +27,7 @@ def loadSingleImgFromPath(path):
 
 
 def loadAllImgFromDirPath(base_path, img_paths):
-    img_list = list()
+    img_list = []
     for path in img_paths:
         img = loadSingleImgFromPath(base_path + path)
         img_list.append(img)
@@ -41,7 +41,7 @@ def grabImgByRect(position, binarize=True, save_file=False, threshold=200):
         img = binarize_processing(img, threshold)
     # save to file
     if save_file:
-        imgName = genRandomStr() + ".png"
+        imgName = f"{genRandomStr()}.png"
         img.save(imgName)
         print("saved a png file whose name is: ", imgName)
     return img
@@ -50,7 +50,7 @@ def grabImgByRect(position, binarize=True, save_file=False, threshold=200):
 def cropImgByRect(img, position, save_file=False):
     cropped = img.crop(position)
     if save_file:
-        imgName = genRandomStr() + ".png"
+        imgName = f"{genRandomStr()}.png"
         cropped.save(imgName)
         print("saved a png file whose name is: ", imgName)
     return cropped
@@ -79,7 +79,7 @@ def split2NPieces(img, pieces=5, interval=10, horizontal=True, save_file=False):
         cropped = img.crop(rect)
         five_imgs.append(cropped)
         if save_file:
-            imgName = genRandomStr() + ".png"
+            imgName = f"{genRandomStr()}.png"
             cropped.save(imgName)
             print("saved a png file whose name is: ", imgName)
 
@@ -96,14 +96,12 @@ def cut3X2Boxes(img, interval=5, save_file=False):
         right_upper = length + left_upper
         upper_img = (left_upper, 0, right_upper, width)
         lower_img = (left_upper, width + interval, right_upper, 2 * width + interval)
-        rect_list.append(upper_img)
-        rect_list.append(lower_img)
-
+        rect_list.extend((upper_img, lower_img))
     for rect in rect_list:
         cropped = img.crop(rect)
         six_imgs.append(cropped)
         if save_file:
-            imgName = genRandomStr() + ".png"
+            imgName = f"{genRandomStr()}.png"
             cropped.save(imgName)
             print("saved a png file whose name is: ", imgName)
 
@@ -123,8 +121,8 @@ def find_circles(mini_map_img):
                                     minDist=10, param1=30, param2=15,
                                     minRadius=5, maxRadius=30)
 
-    positions = list()
-    image_rect = list()
+    positions = []
+    image_rect = []
     if circles_info is not None:
         for index in range(circles_info.shape[1]):
             x = int(circles_info[0][index][0])
@@ -136,12 +134,12 @@ def find_circles(mini_map_img):
 
 
 def cropImgsByRects(img, positions, save_file=False):
-    image_list = list()
+    image_list = []
     for position in positions:
         cropped = img.crop(position)
         image_list.append(cropped)
         if save_file:
-            imgName = genRandomStr() + ".png"
+            imgName = f"{genRandomStr()}.png"
             cropped.save(imgName)
             print("saved a png file whose name is: ", imgName)
     return image_list

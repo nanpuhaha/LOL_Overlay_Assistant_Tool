@@ -107,11 +107,17 @@ class ClientInfo:
     def _getEnlargementFactor(self, position, status="BP"):
         actual_client_size = (position[2] - position[0], position[3] - position[1])
         if status == "BP":
-            self.enlargement_factor = \
-                (list(float(actual / default) for default, actual in zip(LOL_CLIENT_SIZE, actual_client_size)))[0]
+            self.enlargement_factor = [
+                float(actual / default)
+                for default, actual in zip(LOL_CLIENT_SIZE, actual_client_size)
+            ][0]
+
         else:
-            self.enlargement_factor = \
-                (list(float(actual / default) for default, actual in zip(IN_GAME_CLIENT_SIZE, actual_client_size)))[0]
+            self.enlargement_factor = [
+                float(actual / default)
+                for default, actual in zip(IN_GAME_CLIENT_SIZE, actual_client_size)
+            ][0]
+
         return self.enlargement_factor
 
     def getEnlargementFactor(self):
@@ -132,12 +138,11 @@ class ClientInfo:
                "'Position' : '" + str(self.position) + "'"
 
     def isGameMode(self):
-        if self.status in (ClientStatus.AssignPosition,
-                           ClientStatus.ChooseChampion,
-                           ClientStatus.InGame):
-            return True
-        else:
-            return False
+        return self.status in (
+            ClientStatus.AssignPosition,
+            ClientStatus.ChooseChampion,
+            ClientStatus.InGame,
+        )
 
 
 class ClientHeartBeat(QObject):
@@ -183,11 +188,17 @@ class ClientHeartBeat(QObject):
     def _getEnlargementFactor(self, position, status="BP"):
         actual_client_size = (position[2] - position[0], position[3] - position[1])
         if status == "BP":
-            self.enlargement_factor = \
-                (list(float(actual / default) for default, actual in zip(LOL_CLIENT_SIZE, actual_client_size)))[0]
+            self.enlargement_factor = [
+                float(actual / default)
+                for default, actual in zip(LOL_CLIENT_SIZE, actual_client_size)
+            ][0]
+
         else:
-            self.enlargement_factor = \
-                (list(float(actual / default) for default, actual in zip(IN_GAME_CLIENT_SIZE, actual_client_size)))[0]
+            self.enlargement_factor = [
+                float(actual / default)
+                for default, actual in zip(IN_GAME_CLIENT_SIZE, actual_client_size)
+            ][0]
+
         return self.enlargement_factor
 
     def _getCurrentStatus(self, position, factor=1.0):
@@ -207,18 +218,16 @@ class ClientHeartBeat(QObject):
             position = img2Str(position_label_img)
 
             if (position is not None) and (position != "") and \
-                    (position in POSITION_SET):
+                        (position in POSITION_SET):
                 # 有位置信息
                 print("Assigned user position in ", position)
                 UserInGameInfo.getInstance().setUserPosition(position)
                 return ClientStatus.str2Status(position)
             else:
-                # 如果没有位置信息
-                if twice_title == "InRoom" and not self.twice_flag:
-                    self.twice_flag = True
-                    return ClientStatus.str2Status("InRoom")
-                else:
+                if twice_title != "InRoom" or self.twice_flag:
                     return ClientStatus.str2Status(twice_title)
+                self.twice_flag = True
+                return ClientStatus.str2Status("InRoom")
         else:
             self.twice_flag = False
 

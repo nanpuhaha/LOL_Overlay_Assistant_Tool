@@ -13,7 +13,7 @@ def splitPic(image, center, output_path, step_size=60):
     if not os.path.exists(output_path):
         os.mkdir(output_path)
     index = 0
-    for i in range(3):
+    for _ in range(3):
         for offset in numpy.random.randint(4, 65, 10):
             for height in get_array(center[1], offset):
                 for width in get_array(center[0], offset):

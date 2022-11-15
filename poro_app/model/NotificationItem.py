@@ -46,7 +46,7 @@ class NotificationItem(QWidget):
         font.setBold(True)
         font.setPixelSize(16)
         self.labelTitle.setFont(font)
-        self.labelTitle.setStyleSheet('color: {}; padding-left: 3px'.format(msg_color))
+        self.labelTitle.setStyleSheet(f'color: {msg_color}; padding-left: 3px')
         # self.labelTitle.move(50, 30)
 
         # close button
@@ -59,7 +59,7 @@ class NotificationItem(QWidget):
         font = self.labelMessage.font()
         font.setPixelSize(13)
         self.labelMessage.setFont(font)
-        self.labelMessage.setStyleSheet('color: {}; padding-left: 3px'.format(msg_color))
+        self.labelMessage.setStyleSheet(f'color: {msg_color}; padding-left: 3px')
         self.labelMessage.adjustSize()
 
         # add to the grid layout
