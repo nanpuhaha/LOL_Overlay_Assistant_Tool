@@ -31,7 +31,7 @@ def selectBestAlternativeChampion(input_champ: str) -> list:
             rank1 = [index for index, value in sorted(list(enumerate(champCorr)), key=lambda x: x[1])]
             rank1 = rank1[::-1]
 
-            for k in range(0, 30):
+            for k in range(30):
                 champ_name1k = input_file2.columns[rank1[k] + 1].replace('.', '')
                 champ_name2k = champ_name1k.replace('1', '')
                 champ_name3k = champ_name2k.replace('2', '')
@@ -46,9 +46,7 @@ def selectBestAlternativeChampion(input_champ: str) -> list:
             rank2 = [index for index, value in sorted(list(enumerate(winRateCorr)), key=lambda x: x[1])]
             rank2 = rank2[::-1]
 
-            for k in range(0, 30):
-                names2.append(input_file1.columns[rank2[k] + 1])
-
+            names2.extend(input_file1.columns[rank2[k] + 1] for k in range(30))
     names = set(names1).intersection(set(names2))
     names = list(names)[::-1]
     return names
@@ -78,14 +76,13 @@ def gen_recommend_champs(bansByThem: list, position: str, bansInAll: list) -> li
                 result[champ] = name[2]
     result = sorted(result.items(), key=lambda item: item[1])
 
-    if len(result) < 1:
-        NotificationWindow.detect('BP Champion Session',
-                                  "Their Bans are not aiming on specific champions, \n"
-                                  "pick your favorite one and beat them with your Mamba Mentality!",
-                                  callback=None)
-        return None
-    else:
+    if len(result) >= 1:
         return result[::-1][:3]
+    NotificationWindow.detect('BP Champion Session',
+                              "Their Bans are not aiming on specific champions, \n"
+                              "pick your favorite one and beat them with your Mamba Mentality!",
+                              callback=None)
+    return None
 
 
 input_opgg = pd.read_csv('resources/data/items/General.csv')
@@ -161,9 +158,7 @@ def itemSuggestion(position: str, champion_name: str, enemy_build: list) -> list
             if winRate > temp:
                 temp = winRate
                 del res_list[:]
-                for k in range(1, 5):
-                    res_list.append(input_file.iloc[i, k])
-
+                res_list.extend(input_file.iloc[i, k] for k in range(1, 5))
     if math.isnan(res_list[3]):
         del res_list[3]
     suggestion = []

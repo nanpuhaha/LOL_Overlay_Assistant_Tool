@@ -77,7 +77,7 @@ class TrayMenuWindow(QWidget):
     def initOpacitySlider(self, widget):
         opacity_slider_widget = QWidget(self)
         layout = QVBoxLayout(opacity_slider_widget)
-        self.opacity_label = QLabel("Opacity: {} %".format(DEFAULT_OPACITY), self)
+        self.opacity_label = QLabel(f"Opacity: {DEFAULT_OPACITY} %", self)
         self.opacity_label.setAlignment(Qt.AlignCenter)
         slider = QSlider(Qt.Horizontal, self.opacity_label)
         slider.setSingleStep(10)
@@ -97,7 +97,7 @@ class TrayMenuWindow(QWidget):
 
     def updateOpacity(self, value):
         # render new opacity to label widget
-        self.opacity_label.setText("Opacity: {} %".format(str(value)))
+        self.opacity_label.setText(f"Opacity: {str(value)} %")
         # update avatar's opacity
         self.pet.updateAvatarOpacity(float(int(value) / 100))
 
@@ -140,17 +140,17 @@ class TrayMenuWindow(QWidget):
             # 设置poro 表情 TODO  表情有问题 具体看测试用例
             # self.pet.setEmoji('coolguy')
 
-        elif lol_client.isAlive and self.has_client_connected:
+        elif lol_client.isAlive:
             # when you got here that means you have connected stably
             if (lol_client.getPosition() != old_client_position) or \
-                    (lol_client.getStatusIndex() != old_client_status) or \
-                    (lol_client.isGameMode()):
+                        (lol_client.getStatusIndex() != old_client_status) or \
+                        (lol_client.isGameMode()):
                 # 如果跟之前状态不一样 我们发送一条信息， 如果一样就不发
                 old_client_position = lol_client.getPosition()
                 old_client_status = lol_client.getStatusIndex()
                 self.client_info_sender.emit(lol_client)
 
-        elif not lol_client.isAlive:
+        else:
             self.has_client_connected = False
             self.count_false += 1
             old_client_position = None

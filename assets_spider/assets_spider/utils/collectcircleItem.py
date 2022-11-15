@@ -34,8 +34,8 @@ if __name__ == '__main__':
     if not os.path.exists(path):
         os.mkdir(path)
     for url, name in zip(urlList, nameList):
-        if not os.path.exists(path + "/" + name):
-            os.mkdir(path + "/" + name)
-        if (None != url) and ("" != url):
+        if not os.path.exists(f"{path}/" + name):
+            os.mkdir(f"{path}/" + name)
+        if url not in [None, ""]:
             print("going to crawl url -> ", url)
-            download2(path + "/" + name, url)
+            download2(f"{path}/" + name, url)

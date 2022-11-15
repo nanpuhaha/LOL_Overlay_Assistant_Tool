@@ -42,9 +42,9 @@ if __name__ == '__main__':
     df = pd.read_csv('./ff.csv', delimiter=',')
     nameList = tuple(df['en_name'])
     pic_urls = df['url'].tolist()
+    path = "./avatar_en_temp/"
     # traverse all img url and download
     for name, url in zip(nameList, pic_urls):
-        path = "./avatar_en_temp/"
         if not os.path.exists(path):
             os.mkdir(path)
         download3(path, url, name)

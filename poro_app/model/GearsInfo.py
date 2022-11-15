@@ -12,12 +12,11 @@ FILE_PATH = GEAR_BASIC_CSV_PATH
 
 
 def gen_multi_lanes(lanes):
-    imgs_html = ""
-    for lane in lanes:
-        if lane is not None and lane is not "":
-            imgs_html += "<img id=\"lane_icon\" src=\"resources/data/gears/{}.png\">".format(lane)
-
-    return imgs_html
+    return "".join(
+        f'<img id=\"lane_icon\" src=\"resources/data/gears/{lane}.png\">'
+        for lane in lanes
+        if lane is not None and lane is not ""
+    )
 
 
 class GearsBasicInfo(object):
@@ -30,19 +29,17 @@ class GearsBasicInfo(object):
             for row in data:
                 self.info[row[0]] = {
                     "en_name": row[0],
-                    "img": GEAR_PROFILE_PATH + "/" + row[0] + "_item.png",
+                    "img": f"{GEAR_PROFILE_PATH}/{row[0]}_item.png",
                 }
 
     def toHtml(self, gear_name):
-        return "<div class=\"gears\"><img src=\"{}\"> {} </div>" \
-            .format(self.info[gear_name]['img'],
-                    self.info[gear_name]['en_name'])
+        return f"""<div class=\"gears\"><img src=\"{self.info[gear_name]['img']}\"> {self.info[gear_name]['en_name']} </div>"""
 
     def toImgHtml(self, gear_name_list):
-        gears_str = ""
-        for gear in gear_name_list:
-            gears_str += "<img src=\"resources/data/gears/{}.png\">&nbsp;&nbsp;".format(gear)
-        return gears_str
+        return "".join(
+            f'<img src=\"resources/data/gears/{gear}.png\">&nbsp;&nbsp;'
+            for gear in gear_name_list
+        )
 
     @classmethod
     def getInstance(cls, *args, **kwargs):

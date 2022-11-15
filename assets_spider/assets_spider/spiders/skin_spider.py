@@ -37,17 +37,17 @@ class SkinSpider:
 
         hero_info_list = re.findall('"id":"(.*?)","key":"(.*?)","name":"(.*?)","title":"(.*?)",', heroInfoText)
 
+        # 构造一下将要保存的本地路径
+        path = "./heroSkin2/"
         for hero_info in hero_info_list:
-            item = {}
-            item["en_name"] = hero_info[0]
-            item["key"] = hero_info[1]
+            item = {
+                "en_name": hero_info[0],
+                "key": hero_info[1],
+                "cn_title": hero_info[2].encode().decode("unicode-escape"),
+            }
 
-            # 需要通过下方方法进行解码，否则得到的中文是 \u6df1\u6e0a\u5de8\u53e3 这种样子
-            item["cn_title"] = hero_info[2].encode().decode("unicode-escape")
             item["cn_name"] = hero_info[3].encode().decode("unicode-escape")
 
-            # 构造一下将要保存的本地路径
-            path = "./heroSkin2/"
             if not os.path.exists(path):
                 os.mkdir(path)
             self.requestSkinURl(path, item["key"], item["en_name"])
@@ -56,17 +56,17 @@ class SkinSpider:
 
         num = int(key) * 1000
         oneSkinImgurl = "https://game.gtimg.cn/images/lol/act/img/skin/big{}.jpg"
-        for skinPage in range(0, 1):
+        for skinPage in range(1):
             imgUrl = oneSkinImgurl.format(num + skinPage)
             img_response = self.getResponse(imgUrl)
-            if None == img_response:
+            if img_response is None:
                 break
             self.downloadImg(path, img_response.content, skinPage, cn_name)
 
     def downloadImg(self, path, bResponse, skinPage, cn_name):
         dir_name = path
         try:
-            path = path + "/" + cn_name + ".jpg".format(skinPage)
+            path = f"{path}/{cn_name}" + ".jpg".format(skinPage)
             if os.path.exists(path):
                 return
             with open(path, "wb") as f:

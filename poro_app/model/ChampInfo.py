@@ -12,12 +12,11 @@ FILE_PATH = CHAMPION_BASIC_CSV_PATH
 
 
 def gen_multi_lanes(lanes):
-    imgs_html = ""
-    for lane in lanes:
-        if lane is not None and lane is not "":
-            imgs_html += "<img id=\"lane_icon\" src=\"resources/data/lane/{}.png\">".format(lane)
-
-    return imgs_html
+    return "".join(
+        f'<img id=\"lane_icon\" src=\"resources/data/lane/{lane}.png\">'
+        for lane in lanes
+        if lane is not None and lane is not ""
+    )
 
 
 class ChampionBasicInfo(object):
@@ -31,42 +30,35 @@ class ChampionBasicInfo(object):
                 self.info[row[3]] = {
                     "en_name": row[3],
                     "en_title": row[4],
-                    "img": CHAMPION_PROFILE_PATH + "/" + row[3] + ".jpg",
-                    "img_big": CHAMPION_BIG_PROFILE_PATH + "/" + row[3] + ".jpg",
+                    "img": f"{CHAMPION_PROFILE_PATH}/{row[3]}.jpg",
+                    "img_big": f"{CHAMPION_BIG_PROFILE_PATH}/{row[3]}.jpg",
                     "class": row[5],
-                    "POS": gen_multi_lanes(list([row[6], row[7], row[8]]))
+                    "POS": gen_multi_lanes([row[6], row[7], row[8]]),
                 }
 
     def toHtml(self, champ_name, win_rate=None):
-        return "<div class=\"info\"><img src=\"{}\"> {} {}<br/>" \
-               "<span><img id=\"class_icon\" src=\"{}\">&nbsp;&nbsp;&nbsp;{}" \
-               "</span></div><hr/>" \
-            .format(self.info[champ_name]['img'],
-                    self.info[champ_name]['en_name'],
-                    "[Win Rate]: " + str(win_rate) if win_rate is not None else "- [" + self.info[champ_name][
-                        'en_title'] + "]",
-                    "resources/data/classes/{}.png".format(self.info[champ_name]['class']),
-                    self.info[champ_name]['POS'])
+        return (
+            "<div class=\"info\"><img src=\"{}\"> {} {}<br/>"
+            "<span><img id=\"class_icon\" src=\"{}\">&nbsp;&nbsp;&nbsp;{}"
+            "</span></div><hr/>".format(
+                self.info[champ_name]['img'],
+                self.info[champ_name]['en_name'],
+                f"[Win Rate]: {str(win_rate)}"
+                if win_rate is not None
+                else "- [" + self.info[champ_name]['en_title'] + "]",
+                f"resources/data/classes/{self.info[champ_name]['class']}.png",
+                self.info[champ_name]['POS'],
+            )
+        )
 
     def toSimpleHtml(self, champ_name):
-        return "<div class=\"info\"><img src=\"{}\"> {} - [{}] <span><img id=\"class_icon\" src=\"{}\"></div>" \
-            .format(self.info[champ_name]['img'],
-                    self.info[champ_name]['en_name'],
-                    self.info[champ_name]['en_title'],
-                    "resources/data/classes/{}.png".format(self.info[champ_name]['class']))
+        return f"""<div class=\"info\"><img src=\"{self.info[champ_name]['img']}\"> {self.info[champ_name]['en_name']} - [{self.info[champ_name]['en_title']}] <span><img id=\"class_icon\" src=\"resources/data/classes/{self.info[champ_name]['class']}.png\"></div>"""
 
     def toImgHtml(self, champ_name):
-        return "<img src=\"{}\">&nbsp;".format(self.info[champ_name]['img_big'])
+        return f"""<img src=\"{self.info[champ_name]['img_big']}\">&nbsp;"""
 
     def toCustomizeHtml(self, champ_name, msg=None):
-        return "<div class=\"info\"><img src=\"{}\"> {} {}<br/>" \
-               "<span><img id=\"class_icon\" src=\"{}\">&nbsp;&nbsp;&nbsp;{}" \
-               "</span></div><hr/>" \
-            .format(self.info[champ_name]['img'],
-                    self.info[champ_name]['en_name'],
-                    msg,
-                    "resources/data/classes/{}.png".format(self.info[champ_name]['class']),
-                    self.info[champ_name]['POS'])
+        return f"""<div class=\"info\"><img src=\"{self.info[champ_name]['img']}\"> {self.info[champ_name]['en_name']} {msg}<br/><span><img id=\"class_icon\" src=\"resources/data/classes/{self.info[champ_name]['class']}.png\">&nbsp;&nbsp;&nbsp;{self.info[champ_name]['POS']}</span></div><hr/>"""
 
     @classmethod
     def getInstance(cls, *args, **kwargs):

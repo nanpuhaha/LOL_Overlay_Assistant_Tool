@@ -5,7 +5,7 @@ from assets_spider.items import ItemItem
 
 def wrapURL(url):
     if url.startswith("//"):
-        return "http:" + url
+        return f"http:{url}"
 
 
 def wrapName(name):

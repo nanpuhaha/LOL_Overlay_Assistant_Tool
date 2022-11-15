@@ -3,15 +3,12 @@ import os
 
 
 def is_contains_chinese(strs):
-    for _char in strs:
-        if '\u4e00' <= _char <= '\u9fa5':
-            return True
-    return False
+    return any('\u4e00' <= _char <= '\u9fa5' for _char in strs)
 
 
 if __name__ == '__main__':
     json_file_path = "D:\\TFT_DATA\\champions.json"
-    rename_info = dict()
+    rename_info = {}
     with open(json_file_path, encoding="utf8") as json_file:
         champs = json.load(json_file)
         for champion in champs:

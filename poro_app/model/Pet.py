@@ -48,7 +48,12 @@ class Poro(QWidget):
         self.avatar.setAttribute(Qt.WA_TranslucentBackground, True)
 
         # load first frame
-        self.avatar.setPixmap(QPixmap.fromImage(loadSingleImgFromPath(ASSETS_DIR + 'stare/poro-stare-0.png')))
+        self.avatar.setPixmap(
+            QPixmap.fromImage(
+                loadSingleImgFromPath(f'{ASSETS_DIR}stare/poro-stare-0.png')
+            )
+        )
+
 
         # init animation sequence
         self.initAnimationDataSet()

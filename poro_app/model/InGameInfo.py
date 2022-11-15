@@ -21,10 +21,10 @@ from model.ChampInfo import ChampionBasicInfo
 
 def mixedWrapper(champ_name, gears_set):
     champ_img_html = ChampionBasicInfo.getInstance().toImgHtml(champ_name)
-    actual_gears = list()
+    actual_gears = []
     if gears_set is not None:
         actual_gears = list(set(gears_set) - set(NONE_LIST))
-    if len(actual_gears) == 0: actual_gears.append("Nothing")
+    if not actual_gears: actual_gears.append("Nothing")
     gear_img_html = GearsBasicInfo.getInstance().toImgHtml(actual_gears)
     return "<div class=\"mixed\">" + champ_img_html + gear_img_html + "</div><hr/>"
 
@@ -72,7 +72,7 @@ class UserInGameInfo(object):
         :return: self.enemy_position_deque
         """
         if self.enemy_position_deque is None:
-            self.enemy_position_deque = dict()
+            self.enemy_position_deque = {}
             for enemy in self.enemy_team_champ_list:
                 self.enemy_position_deque[enemy] = collections.deque(maxlen=5)
 
@@ -94,7 +94,7 @@ class UserInGameInfo(object):
         self.enemy_position_deque = self.getEnemyPositionDetail()
 
         for enemy_key in self.enemy_team_champ_list:
-            if enemy_key in data_dict.keys():
+            if enemy_key in data_dict:
                 self.enemy_position_deque.get(enemy_key).append(data_dict.get(enemy_key))
             else:
                 self.enemy_position_deque.get(enemy_key).append((-1, -1))

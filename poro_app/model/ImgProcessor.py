@@ -81,7 +81,7 @@ class ImgCatcherThread(threading.Thread):
     def run(self):
         global local_yourself_champ_list
         global local_yourself_gears_list
-        print(self.name + " has started.")
+        print(f"{self.name} has started.")
         while self.__running.isSet():
             if self.client_info.getStatusIndex() == ClientStatus.ChooseChampion:
                 if self.img_crop_type == ImgCropType.BAN_5_CHAMP:
@@ -139,7 +139,7 @@ class ImgCatcherThread(threading.Thread):
 
                 elif self.img_crop_type == ImgCropType.USER_S_CHAMP_AREA:
                     if win32gui.FindWindow(None, LOL_IN_GAME_CLIENT_NAME) != 0 \
-                            and UserInGameInfo.getInstance().hasEnemyInfoArea():
+                                and UserInGameInfo.getInstance().hasEnemyInfoArea():
                         rect = win32gui.GetWindowRect(win32gui.FindWindow(None, LOL_IN_GAME_CLIENT_NAME))
                         factor = getEnlargementFactor(rect, "in_game")
                         new_area = genRelativePos(rect, self.crop_position, factor)
@@ -154,8 +154,8 @@ class ImgCatcherThread(threading.Thread):
 
                 elif self.img_crop_type == ImgCropType.MINI_MAP:
                     if win32gui.FindWindow(None, LOL_IN_GAME_CLIENT_NAME) != 0 \
-                            and UserInGameInfo.getInstance().getYourselfChamp() is not None \
-                            and UserInGameInfo.getInstance().getEnemyTeamList() is not None:
+                                and UserInGameInfo.getInstance().getYourselfChamp() is not None \
+                                and UserInGameInfo.getInstance().getEnemyTeamList() is not None:
                         rect = win32gui.GetWindowRect(win32gui.FindWindow(None, LOL_IN_GAME_CLIENT_NAME))
                         factor = getEnlargementFactor(rect, "in_game")
                         map_area = genRelativePos(rect, self.crop_position, factor)
@@ -183,5 +183,5 @@ class ImgCatcherThread(threading.Thread):
             time.sleep(self._capture_rate)
 
     def stop(self):
-        print("name: " + self.name + " has stopped.")
+        print(f"name: {self.name} has stopped.")
         self.__running.clear()  # stop this thread

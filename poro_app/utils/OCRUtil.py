@@ -17,10 +17,7 @@ def img2Str(img=None):
 
     elif None is not strs:
         selected_name = strs.split(" ")[-1]
-        if selected_name == "PLAY":
-            return "InRoom"
-        else:
-            return selected_name
+        return "InRoom" if selected_name == "PLAY" else selected_name
 
 
 def decodePositionLabelImg(img=None):
@@ -33,5 +30,5 @@ def decodePositionLabelImg(img=None):
     pos_labels = image_to_string(img, lang='eng')
     print("pos_labels ->", pos_labels)
     if (pos_labels is not None) and (25 > len(pos_labels) > 10):
-        other_poss = set(x for x in pos_labels.split("\n") if x != '')
+        other_poss = {x for x in pos_labels.split("\n") if x != ''}
         return tuple(set(POSITION_SET) - other_poss)[0]
